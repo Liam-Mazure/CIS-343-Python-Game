@@ -100,6 +100,7 @@ class Game:
         
         block_list = pygame.sprite.spritecollide(ball,all_blocks,False)
         for block in block_list:
+            block.hit()
             ball.bounce()
 
         # Drawing Logic
