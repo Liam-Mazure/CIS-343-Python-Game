@@ -1,6 +1,10 @@
 import pygame
-import Brick
+from Brick import Brick
+from Paddle import Paddle
+from Ball import Ball
 WHITE = (255, 255, 255)
+BLUE = (26,78,125)
+BLACK = (0,0,0)
 
 
 class Game:
@@ -15,9 +19,19 @@ class Game:
 
     our_sprites = pygame.sprite.Group()
 
-    block = Brick((26,78,125),30,30)
+    block = Brick(BLUE,100,30)
+    paddle = Paddle(125, 20, 1)
+    ball = Ball(BLACK, 25, 25)
+
+    paddle.rect.x = 250
+    paddle.rect.y = 450
+    
+    ball.rect.x = 250
+    ball.rect.y = 250
 
     our_sprites.add(block)
+    our_sprites.add(paddle)
+    our_sprites.add(ball)
 
     while carryOn:
         for event in pygame.event.get():
@@ -27,7 +41,7 @@ class Game:
     
     
         # Game Logic
-
+        our_sprites.update()
 
         # Drawing Logic
         window.fill(WHITE)
@@ -39,52 +53,3 @@ class Game:
         clock.tick(60)
 
     pygame.quit()
-
-    # def __init__(self):
-    #     self._running = True
-    #     self._display = None
-    # def on_init(self):
-    #     pygame.init()
-    #     self._display = pygame.pygame.Overlay.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
-    #     self._running = True
-    # def on_action(self, action):
-    #     if action.type == pygame.QUIT:
-    #         self._running = False
-    # def on_loop(self):
-    #     pass
-    # def on_render(self):
-    #     pass
-    # def on_cleanup(self):
-    #     pygame.quit()
-    # def on_execute(self):
-    #     if self.on_init() == False:
-    #         self._running == False
-        
-    #     while(self._running):
-    #         for action in pygame.event.get():
-    #             self.on_action(action)
-    #         self.on_loop()
-    #         self.on_render()
-    #     self.on_cleanup()
-
-# if __name__ == "__main__":
-#     runGame = Game()
-
-# class Overlay:
-#     pass
-# class Paddle:
-#     pass
-# class Ball:
-#     pass
-# class Brick(pygame.sprite.Sprite):
-    
-#     def __init__(self, color, height, weight):
-#         super().__init__()
-    
-#         self.image = pygame.Surface([30, 30])
-#         self.image.fill(WHITE)
-#         self.image.set_colorkey(WHITE)
-
-#         pygame.draw.pygame.draw.rect(self.image, (40,150,67),[0,0,30,30])
-
-#         self.rect = self.image.get_rect

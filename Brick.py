@@ -3,13 +3,13 @@ WHITE = (255,255,255)
 
 class Brick(pygame.sprite.Sprite):
     
-    def __init__(self, color, height, weight):
-        super().__init__()
+    def __init__(self, color, width, height):
+        super(Brick, self).__init__()
     
-        self.image = pygame.Surface([30, 30])
+        self.image = pygame.Surface([width, height])
         self.image.fill(WHITE)
         self.image.set_colorkey(WHITE)
 
-        pygame.draw.pygame.draw.rect(self.image, (40,150,67),[0,0,30,30])
+        pygame.draw.rect(self.image, color, [0,0,width,height])
 
-        self.rect = self.image.get_rect
+        self.rect = self.image.get_rect()
