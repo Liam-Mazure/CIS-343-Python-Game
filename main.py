@@ -1,7 +1,9 @@
+from random import randint
 import pygame
 from Brick import Brick
 from Paddle import Paddle
 from Ball import Ball
+from Overlay import Overlay
 WHITE = (255, 255, 255)
 BLUE = (26,78,125)
 BLACK = (0,0,0)
@@ -21,7 +23,8 @@ class Game:
 
     block = Brick(BLUE,50,30)
     paddle = Paddle(125, 20, 1)
-    ball = Ball(BLACK, 25, 25)
+    ball = Ball(BLACK, 10, 10)
+    overlay = Overlay(3)
 
     paddle.rect.x = 250
     paddle.rect.y = 450
@@ -31,31 +34,31 @@ class Game:
 
     all_blocks = pygame.sprite.pygame.sprite.Group()
     for i in range(10):
-        block = Brick(BLUE,50,30)
+        block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
         block.rect.x = 0 + i * 50
         block.rect.y = 0
         our_sprites.add(block)
         all_blocks.add(block)
     for i in range(10):
-        block = Brick(BLACK,50,30)
+        block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
         block.rect.x = 0 + i * 50
         block.rect.y = 30
         our_sprites.add(block)
         all_blocks.add(block)
     for i in range(10):
-        block = Brick(BLACK,50,30)
+        block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
         block.rect.x = 0 + i * 50
         block.rect.y = 60
         our_sprites.add(block)
         all_blocks.add(block)
     for i in range(10):
-        block = Brick(BLACK,50,30)
+        block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
         block.rect.x = 0 + i * 50
         block.rect.y = 90
         our_sprites.add(block)
         all_blocks.add(block)
     for i in range(10):
-        block = Brick(BLUE,50,30)
+        block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
         block.rect.x = 0 + i * 50
         block.rect.y = 120
         our_sprites.add(block)
@@ -77,17 +80,34 @@ class Game:
             paddle.moveLeft(5)
         if keys[pygame.K_RIGHT]:
             paddle.moveRight(5)
+    
+
+        if keys[pygame.K_b]:
+            #ball = Ball(BLACK,10,10)
+            #ball.rect.x = 250
+            #ball.rect.y = 250
+            our_sprites.add(ball)
 
         # Game Logic
         our_sprites.update()
 
         #If ball hits edge of window change direction
-        if ball.rect.x >= 475:
+        if ball.rect.x >= 490:
             ball.velocity[0] = -ball.velocity[0]
         if ball.rect.x <= 0:
             ball.velocity[0] = -ball.velocity[0]
-        if ball.rect.y >= 475:
-            ball.velocity[1] = -ball.velocity[1]
+        if ball.rect.y >= 490:
+            overlay.set_lives(overlay.get_lives()-1)
+            ball.rect.x = 250
+            ball.rect.y = 250
+            pygame.time.wait(1000)
+            if(overlay.get_lives() == -1):
+                font = pygame.font.Font(None, 74)
+                text = font.render("Game Over", 1, BLACK)
+                window.blit(text, (120, 250))
+                pygame.display.flip()
+                pygame.time.wait(3000)
+                carryOn = False
         if ball.rect.y <= 0:
             ball.velocity[1] = -ball.velocity[1]
 
@@ -97,16 +117,21 @@ class Game:
             ball.rect.y -= ball.velocity[1]
             ball.bounce()
 
-        
+        #Ball hits Block
         block_list = pygame.sprite.spritecollide(ball,all_blocks,False)
         for block in block_list:
             block.hit()
             ball.bounce()
-
+            if block.getHealth() <= 0:
+                overlay.set_score(overlay.get_score() + 1)
         # Drawing Logic
         window.fill(WHITE)
 
         our_sprites.draw(window)
+
+        #Draws score and Lives
+        overlay.Draw(window)
+        
 
         pygame.display.flip()
 
