@@ -1,4 +1,5 @@
 import pygame
+from pygame import mixer
 WHITE = (255,255,255)
 
 class Brick(pygame.sprite.Sprite):
@@ -27,6 +28,8 @@ class Brick(pygame.sprite.Sprite):
         self.__Health = value
     
     def hit(self):
+        break_block_snd = mixer.Sound('explosion.wav')
         self.setHealth(self.getHealth() - 25)
         if self.getHealth() <= 0:
             self.kill()
+            break_block_snd.play()

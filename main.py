@@ -4,6 +4,7 @@ from Brick import Brick
 from Paddle import Paddle
 from Ball import Ball
 from Overlay import Overlay
+from pygame import mixer 
 WHITE = (255, 255, 255)
 BLUE = (26,78,125)
 BLACK = (0,0,0)
@@ -14,6 +15,9 @@ class Game:
     size = (500,500)
     window = pygame.display.set_mode(size)
     pygame.display.set_caption("Brick Breaker")
+    mixer.music.load('background.wav')
+    mixer.music.play(-1)
+
 
     carryOn = True
     
