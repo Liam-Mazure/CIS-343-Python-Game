@@ -28,10 +28,7 @@ class Overlay:
         window.blit(text, (5,10))
         text = font.render("Lives: " + str(Overlay.get_lives(self)),1,WHITE)
         window.blit(text, (5,30))
-        
 
-   # def sub_life(self):
-    #    self.set_lives(self.get_lives() - 1)
         
 
 
