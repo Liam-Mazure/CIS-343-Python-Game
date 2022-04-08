@@ -71,18 +71,16 @@ class Game:
         our_sprites.add(block)
         all_blocks.add(block)
 
+    #Adding Initial Sprites to our sprite list
     our_sprites.add(block)
     our_sprites.add(paddle)
     our_sprites.add(ball)
 
+    #Main Game Loop
     while carryOn:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 carryOn = False
-        
-    
-        #Moves paddel left and right
-        paddle.update()
     
         #Add Extra ball
         keys = pygame.key.get_pressed()
@@ -129,6 +127,7 @@ class Game:
                 ball.bounce()
                 if block.getHealth() <= 0:
                     overlay.set_score(overlay.get_score() + 1)
+        
         # Drawing Logic
         window.fill(WHITE)
 
@@ -136,7 +135,6 @@ class Game:
 
         #Draws score and Lives
         overlay.Draw(window)
-        
 
         pygame.display.flip()
 
