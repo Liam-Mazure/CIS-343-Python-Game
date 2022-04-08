@@ -1,11 +1,13 @@
 import pygame
 from random import randint
+from pygame import mixer
 
 WHITE = (255,255,255)
+BLACK = (0,0,0)
 
-class self(pygame.sprite.Sprite):
+class Ball(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
-        super(self, self).__init__()
+        super(Ball, self).__init__()
 
         self.image = pygame.Surface([width, height])
         self.image.fill(WHITE)
@@ -21,41 +23,20 @@ class self(pygame.sprite.Sprite):
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
 
-        #experimental 
         #If self hits edge of window change direction
+        ball_bounce_snd = mixer.Sound('bounce_ball.wav')
         if self.rect.x >= 490:
             self.velocity[0] = -self.velocity[0]
+            ball_bounce_snd.play()
         if self.rect.x <= 0:
             self.velocity[0] = -self.velocity[0]
-        if self.rect.y >= 490:
-            overlay.set_lives(overlay.get_lives()-1)
-            self.rect.x = 250
-            self.rect.y = 250
-            pygame.time.wait(1000)
-            if(overlay.get_lives() == -1):
-                font = pygame.font.Font(None, 74)
-                text = font.render("Game Over", 1, BLACK)
-                window.blit(text, (120, 250))
-                pygame.display.flip()
-                pygame.time.wait(3000)
-                carryOn = False
+            ball_bounce_snd.play()
         if self.rect.y <= 0:
             self.velocity[1] = -self.velocity[1]
-
-        #If self hits paddle bounce off
-        if pygame.sprite.collide_mask(self, paddle):
-            self.rect.x -= self.velocity[0]
-            self.rect.y -= self.velocity[1]
-            self.bounce()
-
-        #self hits Block
-        block_list = pygame.sprite.spritecollide(self,all_blocks,False)
-        for block in block_list:
-            block.hit()
-            self.bounce()
-            if block.getHealth() <= 0:
-                overlay.set_score(overlay.get_score() + 1)
+            ball_bounce_snd.play()
 
     def bounce(self):
+        ball_bounce_snd = mixer.Sound('bounce_ball.wav')
         self.velocity[0] = self.velocity[0] 
         self.velocity[1] = -self.velocity[1]
+        ball_bounce_snd.play()

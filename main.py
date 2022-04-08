@@ -25,9 +25,11 @@ class Game:
 
     our_sprites = pygame.sprite.Group()
 
-    block = Brick(BLUE,50,30)
-    paddle = Paddle(125, 20, 1)
+    ball_list = pygame.sprite.pygame.sprite.Group()
     ball = Ball(BLACK, 10, 10)
+    ball_list.add(ball)
+
+    paddle = Paddle(125, 20, 1)
     overlay = Overlay(3)
 
     paddle.rect.x = 250
@@ -36,6 +38,7 @@ class Game:
     ball.rect.x = 250
     ball.rect.y = 250
 
+    #Adds rows of blocks
     all_blocks = pygame.sprite.pygame.sprite.Group()
     for i in range(10):
         block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
@@ -79,55 +82,53 @@ class Game:
         
     
         #Moves paddel left and right
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_LEFT]:
-            paddle.moveLeft(5)
-        if keys[pygame.K_RIGHT]:
-            paddle.moveRight(5)
+        paddle.update()
     
-
+        #Add Extra ball
+        keys = pygame.key.get_pressed()
         if keys[pygame.K_b]:
-            #ball = Ball(BLACK,10,10)
-            #ball.rect.x = 250
-            #ball.rect.y = 250
+            ball = Ball(BLACK,10,10)
+            ball.rect.x = 250
+            ball.rect.y = 250
             our_sprites.add(ball)
+            ball_list.add(ball)
 
         # Game Logic
         our_sprites.update()
 
-        #If ball hits edge of window change direction
-        if ball.rect.x >= 490:
-            ball.velocity[0] = -ball.velocity[0]
-        if ball.rect.x <= 0:
-            ball.velocity[0] = -ball.velocity[0]
-        if ball.rect.y >= 490:
-            overlay.set_lives(overlay.get_lives()-1)
-            ball.rect.x = 250
-            ball.rect.y = 250
-            pygame.time.wait(1000)
-            if(overlay.get_lives() == -1):
-                font = pygame.font.Font(None, 74)
-                text = font.render("Game Over", 1, BLACK)
-                window.blit(text, (120, 250))
-                pygame.display.flip()
-                pygame.time.wait(3000)
-                carryOn = False
-        if ball.rect.y <= 0:
-            ball.velocity[1] = -ball.velocity[1]
+        #Checks if ball passes paddle
+        for ball in ball_list:
+            if ball.rect.y >= 490:
+                if len(ball_list) == 1:
+                    overlay.set_lives(overlay.get_lives()-1)
+                ball.rect.x = 250
+                ball.rect.y = 250
+                if len(ball_list) == 1:
+                    pygame.time.wait(1000)
+                else:
+                    ball.kill()
+                if(overlay.get_lives() == -1):
+                    font = pygame.font.Font(None, 74)
+                    text = font.render("Game Over", 1, BLACK)
+                    window.blit(text, (120, 250))
+                    pygame.display.flip()
+                    pygame.time.wait(3000)
+                    carryOn = False
 
         #If ball hits paddle bounce off
-        if pygame.sprite.collide_mask(ball, paddle):
-            ball.rect.x -= ball.velocity[0]
-            ball.rect.y -= ball.velocity[1]
-            ball.bounce()
+        for ball in ball_list:
+            if pygame.sprite.collide_mask(ball, paddle):
+                ball.rect.x -= ball.velocity[0]
+                ball.rect.y -= ball.velocity[1]
+                ball.bounce()
 
-        #Ball hits Block
-        block_list = pygame.sprite.spritecollide(ball,all_blocks,False)
-        for block in block_list:
-            block.hit()
-            ball.bounce()
-            if block.getHealth() <= 0:
-                overlay.set_score(overlay.get_score() + 1)
+            #Ball hits Block
+            block_list = pygame.sprite.spritecollide(ball,all_blocks,False)
+            for block in block_list:
+                block.hit()
+                ball.bounce()
+                if block.getHealth() <= 0:
+                    overlay.set_score(overlay.get_score() + 1)
         # Drawing Logic
         window.fill(WHITE)
 

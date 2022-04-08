@@ -26,3 +26,10 @@ class Paddle(pygame.sprite.Sprite):
 
         if self.rect.x > 375:
             self.rect.x = 375
+
+    def update(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            self.moveLeft(5)
+        if keys[pygame.K_RIGHT]:
+            self.moveRight(5)
