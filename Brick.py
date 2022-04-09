@@ -2,17 +2,28 @@ import pygame
 from pygame import mixer
 WHITE = (255,255,255)
 
+#This class is the logic for all the bricks
+#In the brick breaker game
 class Brick(pygame.sprite.Sprite):
 
+    #Private variable, health of the brick
     __Health = 0
     
+    #Constructor for the Brick
+    #@param self: the object itself
+    #@param color: the color of the brick
+    #@param width: the width of the brick
+    #@param height: the height of the brick
     def __init__(self, color, width, height):
         x = color[0]
         y = color[1]
         z = color[2]
+
+        #Set the health of the brick to 766 - the RGB values of the brick
         self.setHealth(766-x-y-z)
         super(Brick, self).__init__()
-    
+
+        #Creating the actual rectangle brick
         self.image = pygame.Surface([width, height])
         self.image.fill(WHITE)
         self.image.set_colorkey(WHITE)
@@ -21,15 +32,28 @@ class Brick(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
     
+    #Function to return the health of the brick
+    #@param self: The actual brick object
     def getHealth(self):
         return self.__Health
     
+    #Function to set/update the health of a brick object
+    #@param self: the actual brick object
+    #@param value: the value that health should be set to
     def setHealth(self,value):
         self.__Health = value
     
+    #Function to register that a block has been hit
+    #Takes away health and kills the brick if health is 
+    #zero or less
+    #@param self: the actual brick object
     def hit(self):
         break_block_snd = mixer.Sound('explosion.wav')
+
+        #Take away 25 health from the brick
         self.setHealth(self.getHealth() - 25)
+        
+        #If health is 0 or less kill the brick and play break sound
         if self.getHealth() <= 0:
             self.kill()
             break_block_snd.play()
