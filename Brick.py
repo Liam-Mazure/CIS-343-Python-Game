@@ -6,6 +6,7 @@ WHITE = (255,255,255)
 #In the brick breaker game
 class Brick(pygame.sprite.Sprite):
 
+<<<<<<< Updated upstream
     #Private variable, health of the brick
     __Health = 0
     
@@ -14,6 +15,12 @@ class Brick(pygame.sprite.Sprite):
     #@param color: the color of the brick
     #@param width: the width of the brick
     #@param height: the height of the brick
+=======
+    #Initializes private varibale Health
+    __Health = 0
+    
+    #Sets health of block to its RGB values subtracted from 766(max color value)
+>>>>>>> Stashed changes
     def __init__(self, color, width, height):
         x = color[0]
         y = color[1]
@@ -28,10 +35,12 @@ class Brick(pygame.sprite.Sprite):
         self.image.fill(WHITE)
         self.image.set_colorkey(WHITE)
 
+        #Draws block
         pygame.draw.rect(self.image, color, [0,0,width,height])
 
         self.rect = self.image.get_rect()
     
+<<<<<<< Updated upstream
     #Function to return the health of the brick
     #@param self: The actual brick object
     def getHealth(self):
@@ -47,6 +56,17 @@ class Brick(pygame.sprite.Sprite):
     #Takes away health and kills the brick if health is 
     #zero or less
     #@param self: the actual brick object
+=======
+    #Returns current health
+    def getHealth(self):
+        return self.__Health
+    
+    #Sets health to value
+    def setHealth(self,value):
+        self.__Health = value
+    
+    #When block is hit subtract 25 from health and check if blocks health is less than or equal to 0. If so destroy block with sound
+>>>>>>> Stashed changes
     def hit(self):
         break_block_snd = mixer.Sound('explosion.wav')
 
