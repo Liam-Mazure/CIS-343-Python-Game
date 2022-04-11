@@ -50,11 +50,7 @@ class Game:
     ball.rect.x = 250
     ball.rect.y = 250
 
-<<<<<<< Updated upstream
     #Adds rows of blocks to the screen
-=======
-    #Adds 5 Rows of 10 blocks each with a random color
->>>>>>> Stashed changes
     all_blocks = pygame.sprite.pygame.sprite.Group()
     for i in range(10):
         block = Brick((randint(0,255),randint(0,255),randint(0,255)),50,30)
@@ -91,19 +87,14 @@ class Game:
     our_sprites.add(block)
     our_sprites.add(paddle)
     our_sprites.add(ball)
-<<<<<<< Updated upstream
 
     #Main Game Loop
-=======
-    
->>>>>>> Stashed changes
     while carryOn:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 carryOn = False
     
         #Add Extra ball
-<<<<<<< Updated upstream
         keys = pygame.key.get_pressed()
         
         #'B' Key pressed add a ball
@@ -120,26 +111,6 @@ class Game:
         # Game Logic
 
         #Update all our sprites in the sprite group
-=======
-        events = pygame.event.get()
-        for event in events:
-            if event.type == pygame.KEYUP:
-                if event.key == pygame.K_b:
-                    ball = Ball(BLACK,10,10)
-                    ball.rect.x = 250
-                    ball.rect.y = 250
-                    our_sprites.add(ball)
-                    ball_list.add(ball)
-       # keys = pygame.key.get_pressed()
-        #if keys[pygame.K_b]:
-        #    ball = Ball(BLACK,10,10)
-         #   ball.rect.x = 250
-          #  ball.rect.y = 250
-           # our_sprites.add(ball)
-            #ball_list.add(ball)
-
-        #Updates all sprites
->>>>>>> Stashed changes
         our_sprites.update()
 
         #Checks if ball passes paddle now that everything
@@ -191,17 +162,10 @@ class Game:
                 if block.getHealth() <= 0:
                     overlay.set_score(overlay.get_score() + 1)
         
-<<<<<<< Updated upstream
         # Drawing Logic
         window.fill(WHITE)
 
         #Draw the sprites to the window
-=======
-        #Fills window with color
-        window.fill(WHITE)
-
-        #Adds sprits to winow
->>>>>>> Stashed changes
         our_sprites.draw(window)
 
         #Draws score and Lives

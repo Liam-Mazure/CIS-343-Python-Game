@@ -13,13 +13,12 @@ class Ball(pygame.sprite.Sprite):
         self.image.fill(WHITE)
         self.image.set_colorkey(WHITE)
 
-        #Draws Ball
         pygame.draw.rect(self.image, color, [0,0,width,height])
 
+        #self.velocity = [randint(4,8),randint(-8,8)]
         self.velocity = [3,3]
         self.rect = self.image.get_rect()
 
-    #Keeps balls veelocity constent if there is no change inflicted on the ball
     def update(self):
         self.rect.x += self.velocity[0]
         self.rect.y += self.velocity[1]
@@ -36,7 +35,6 @@ class Ball(pygame.sprite.Sprite):
             self.velocity[1] = -self.velocity[1]
             ball_bounce_snd.play()
 
-    #Flips balls velocity of vertical movement, but keeps velocity of horizonatl movement the same if ball bounces
     def bounce(self):
         ball_bounce_snd = mixer.Sound('bounce_ball.wav')
         self.velocity[0] = self.velocity[0] 
