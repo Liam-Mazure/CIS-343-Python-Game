@@ -9,7 +9,13 @@ WHITE = (255, 255, 255)
 BLUE = (26,78,125)
 BLACK = (0,0,0)
 
-#This class is the main game
+#This project is a simple brick breaker game using Pygame
+
+#@authors Chandler Glowicki and Liam Mazure
+#@version Winter 2022
+
+
+#This class is the main game logic to run the brick breaker game
 class Game:
     pygame.init()
 
@@ -95,8 +101,8 @@ class Game:
                 carryOn = False
     
         #Add Extra ball
-        keys = pygame.key.get_pressed()
-        
+        keys = pygame.key.get_pressed()      
+
         #'B' Key pressed add a ball
         if keys[pygame.K_b]:
             
